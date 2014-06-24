@@ -1,0 +1,34 @@
+/* Colours */
+$razzmatazz: #e5137a;
+
+$colourPrimary: $razzmatazz;
+$colourSecondary: orange;
+
+/* Typography  */
+
+$baseFontSize: 20; // No px on this
+$baseLineHeight: 25px; 
+$baseFontFamily: 'Lato', Arial, Helvetica, sans-serif;
+$baseFontColour: #fefefe;
+
+$headingFontFamily: 'Lato', Arial, Helvetica, sans-serif; 
+$headingColour: $baseFontColour;
+
+$headingAlpha:                  32px;
+$headingBeta:                   24px;
+$headingGamma:                  19px;
+$headingDelta:                  16px;
+$headingEpsilon:                13px;
+$headingZeta:                   11px;
+
+/* Links  */
+$linkColour: #065ae8;
+$linkVisited: lighten($linkColour, 10);
+$linkHover: darken($linkColour, 20);
+$linkActive: darken($linkColour, 20);
+$linkFocus: darken($linkColour, 40);
+
+%grid {
+    max-width: 1260;
+    margin: auto;
+}
