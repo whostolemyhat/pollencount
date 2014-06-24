@@ -32,10 +32,10 @@ app.get('/scrape', function(req, res) {
             fs.writeFile('pollen.json', JSON.stringify(json, null, 4), function(err) {
                 if(err) {
                     console.log('Error writing json file');
-                    res.send('Error writing json');
+                    // res.send('Error writing json');
                 } else {
                     console.log('Wrote json file');
-                    res.send('Pollen count updated');
+                    // res.send('Pollen count updated');
 
                     // upload to aws
                     var expires =  Math.ceil((new Date().getTime() + 10000)/1000); // 10 seconds from now
