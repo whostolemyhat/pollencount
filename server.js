@@ -2,7 +2,8 @@ var express = require('express');
 var fs = require('fs');
 var request = require('request');
 var cheerio = require('cheerio');
-// var bodyParser = require('body-parser');
+
+var port = process.env.PORT || 3000;
 
 var app = express();
 app.use(express.static(__dirname + '/public'));
@@ -45,8 +46,8 @@ app.get('/', function(req, res) {
     res.render('index');
 });
 
-app.listen('8081');
+app.listen(port);
 
-console.log('Listening on port 8081');
+console.log('Listening on port ' + port);
 
 exports = module.exports = app;
