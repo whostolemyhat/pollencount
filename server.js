@@ -39,16 +39,16 @@ app.get('/scrape', function(req, res) {
 
                     // upload to aws
                     var expires =  Math.ceil((new Date().getTime() + 10000)/1000); // 10 seconds from now
-                    var amz_headers = "x-amz-acl:public-read";
+                    var amz_headers = 'x-amz-acl:public-read';
 
-                    var putRequest = "PUT\n\napplication/json\n" + expires + "\n" + amz_headers + "\n" + AWS_BUCKET + "/pollen.json";
+                    var putRequest = 'PUT\n\napplication/json\n' + expires + '\n' + amz_headers + '\n' + AWS_BUCKET + '/pollen.json';
 
-                    var signature = crypto.createHmac('sha1', AWS_SECRET_KEY).update(put_request).digest('base64');
+                    var signature = crypto.createHmac('sha1', AWS_SECRET_KEY).update(putRequest).digest('base64');
                     signature = encodeURIComponent(signature.trim());
                     signature = signature.replace('%2B','+');
                     var url = 'https://'+AWS_BUCKET+'.s3.amazonaws.com/pollen.json';
                     var credentials = {
-                        signed_request: url+"?AWSAccessKeyId="+AWS_ACCESS_KEY+"&Expires="+expires+"&Signature="+signature,
+                        signed_request: url+'?AWSAccessKeyId='+AWS_ACCESS_KEY+'&Expires='+expires+'&Signature='+signature,
                         url: url
                     };
                     res.write(JSON.stringify(credentials));
