@@ -57,7 +57,7 @@ app.get('/scrape', function(req, res) {
 
             });
 
-            res.send('finished');
+            // res.send('finished');
         }
     });
 });
