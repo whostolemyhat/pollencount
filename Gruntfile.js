@@ -24,7 +24,7 @@ module.exports = function(grunt) {
                 files: [
                     '<%= app %>/js/**/*.js'
                 ],
-                tasks: ['jshint'],
+                tasks: ['jshint', 'concat:dev'],
             },
 
 
@@ -53,16 +53,16 @@ module.exports = function(grunt) {
             },
             prod: {
                 options: {
-                    // outputStyle: 'compressed',
+                    style: 'compressed',
                     lineNumbers: false
                 },
                 files: {
-                    '<%= app %>/build/css/main.css': '<%= app %>/sass/main.scss',
+                    '<%= app %>/css/main.css': '<%= app %>/sass/main.scss',
                 }
             }
         },
 
-        clean: [ '<%= app %>/build/' ],
+        // clean: [ '<%= app %>/build/' ],
 
         tag: {
             banner: '/* <%= pkg.name %>\n*/' +
@@ -76,8 +76,15 @@ module.exports = function(grunt) {
                 banner: '<%= tag.banner %>'
             },
             dist: {
-                src: ['<%= app %>/js/*.js'], // not vendor files
-                dest: '<%= app %>/build/js/app.min.js'
+                src: ['<%= app %>/js/src/*.js'], // not vendor files
+                dest: '<%= app %>/js/main.js'
+            }
+        },
+
+        concat: {
+            dev: {
+                src: ['<%= app %>/js/src/*.js'],
+                dest: '<%= app %>/js/main.js'
             }
         },
 
@@ -90,21 +97,6 @@ module.exports = function(grunt) {
                 'Gruntfile.js',
                 '<%= app %>/js/*.js'
             ]
-        },
-
-        csslint: {
-            strict: {
-                options: {
-                    import: 2
-                },
-                src: ['<%= app %>/css/*.css']
-            },
-            lax: {
-                options: {
-                    import: false
-                },
-                src: ['<%= app %>/css/*.css']
-            }
         },
 
         connect: {
@@ -123,5 +115,5 @@ module.exports = function(grunt) {
     });
 
     grunt.registerTask('default', ['connect:livereload', 'watch']);
-    grunt.registerTask('build', ['jshint', 'clean', 'uglify', 'sass:prod']);
+    grunt.registerTask('build', ['uglify', 'sass:prod']);
 };
