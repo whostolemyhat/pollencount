@@ -1,5 +1,4 @@
 var express = require('express');
-var fs = require('fs');
 var request = require('request');
 var cheerio = require('cheerio');
 var AWS = require('aws-sdk');
@@ -43,38 +42,6 @@ app.get('/scrape', function(req, res) {
                 });
             });
 
-            // fs.writeFile('pollen.json', JSON.stringify(json, null, 4), function(err) {
-                // if(err) {
-                    // console.log('Error writing json file');
-                    // res.send('Error writing json');
-                // } else {
-                    // console.log('Wrote json file');
-                    // res.send('Pollen count updated');
-
-                    
-
-                    // upload to aws
-                    // s3.load('s3', AWS_ACCESS_KEY, AWS_SECRET_KEY);
-                    // s3.setBucket(AWS_BUCKET);
-                    // var expires =  Math.ceil((new Date().getTime() + 10000)/1000); // 10 seconds from now
-                    // var amz_headers = 'x-amz-acl:public-read';
-
-                    // var putRequest = 'PUT\n\napplication/json\n' + expires + '\n' + amz_headers + '\n' + AWS_BUCKET + '/pollen.json';
-
-                    // var signature = crypto.createHmac('sha1', AWS_SECRET_KEY).update(putRequest).digest('base64');
-                    // signature = encodeURIComponent(signature.trim());
-                    // signature = signature.replace('%2B','+');
-                    // var url = 'https://'+AWS_BUCKET+'.s3.amazonaws.com/pollen.json';
-                    // var credentials = {
-                    //     signed_request: url+'?AWSAccessKeyId='+AWS_ACCESS_KEY+'&Expires='+expires+'&Signature='+signature,
-                    //     url: url
-                    // };
-                    // res.write(JSON.stringify(credentials));
-                    // res.end();
-                // }
-
-            // });
-
             res.send('Updated pollen count.');
         } else {
             res.send(error);
@@ -83,24 +50,6 @@ app.get('/scrape', function(req, res) {
 });
 
 app.get('/api/count', function(req, res) {
-    // var json = require('./pollen.json');
-    // res.json(json);
-
-    // var s3 = new AWS.S3();
-    // var bucketName = 'pollencount';
-
-    // var keyName = 'pollen.json';
-
-    // s3.createBucket({ Bucket: bucketName }, function() {
-    //     var params = { Bucket: bucketName, Key: keyName };
-    //     s3.getObject(params, function(err, data) {
-    //         if (err) {
-    //             console.log(err);
-    //         } else {
-    //             console.log('Successfully uploaded data to ' + bucketName + '/' + keyName);
-    //         }
-    //     });
-    // });
 
     var url = 'https://s3-eu-west-1.amazonaws.com/pollencount/pollen.json';
     request(url, function(error, response, contents) {
