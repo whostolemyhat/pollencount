@@ -46,5 +46,8 @@ $(document).ready(function() {
     .fail(function() {
         $('.mega').text('Unknown');
         $('.main').append('<p>Refresh to try again.</p>');
+    })
+    .always(function() {
+        $('.spinner').hide();
     });
 });
