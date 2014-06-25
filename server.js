@@ -2,17 +2,13 @@ var express = require('express');
 var fs = require('fs');
 var request = require('request');
 var cheerio = require('cheerio');
-// var crypto = require('crypto');
-var s3 = require('aws2js');
+var AWS = require('aws-sdk');
 
 var port = process.env.PORT || 3000;
 
 var app = express();
 app.use(express.static(__dirname + '/public'));
 
-var AWS_ACCESS_KEY = process.env.aws_access_key_id;
-var AWS_SECRET_KEY = process.env.aws_secret_access_key;
-var AWS_BUCKET = process.env.aws_bucket;
 
 app.get('/scrape', function(req, res) {
     var url = 'http://www.bbc.co.uk/weather/2654675';
@@ -30,13 +26,32 @@ app.get('/scrape', function(req, res) {
 
             console.log(pollenCount);
 
-            fs.writeFile('pollen.json', JSON.stringify(json, null, 4), function(err) {
-                if(err) {
-                    console.log('Error writing json file');
+            // s3 credentials set as environment vars process.env.AWS_ACCESS_KEY_ID, process.env.AWS_SECRET_ACCESS_KEY $env:AWS_ACCESS_KEY_ID="xyz"
+            var s3 = new AWS.S3();
+            var bucketName = 'pollencount';
+
+            var keyName = 'pollen.json';
+
+            s3.createBucket({ Bucket: bucketName }, function() {
+                var params = {Bucket: bucketName, Key: keyName, Body: JSON.stringify(json, null, 4)};
+                s3.putObject(params, function(err, data) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        console.log('Successfully uploaded data to ' + bucketName + '/' + keyName);
+                    }
+                });
+            });
+
+            // fs.writeFile('pollen.json', JSON.stringify(json, null, 4), function(err) {
+                // if(err) {
+                    // console.log('Error writing json file');
                     // res.send('Error writing json');
-                } else {
-                    console.log('Wrote json file');
+                // } else {
+                    // console.log('Wrote json file');
                     // res.send('Pollen count updated');
+
+                    
 
                     // upload to aws
                     // s3.load('s3', AWS_ACCESS_KEY, AWS_SECRET_KEY);
@@ -56,18 +71,45 @@ app.get('/scrape', function(req, res) {
                     // };
                     // res.write(JSON.stringify(credentials));
                     // res.end();
-                }
+                // }
 
-            });
+            // });
 
-            res.send('finished');
+            res.send('Updated pollen count.');
+        } else {
+            res.send(error);
         }
     });
 });
 
 app.get('/api/count', function(req, res) {
-    var json = require('./pollen.json');
-    res.json(json);
+    // var json = require('./pollen.json');
+    // res.json(json);
+
+    // var s3 = new AWS.S3();
+    // var bucketName = 'pollencount';
+
+    // var keyName = 'pollen.json';
+
+    // s3.createBucket({ Bucket: bucketName }, function() {
+    //     var params = { Bucket: bucketName, Key: keyName };
+    //     s3.getObject(params, function(err, data) {
+    //         if (err) {
+    //             console.log(err);
+    //         } else {
+    //             console.log('Successfully uploaded data to ' + bucketName + '/' + keyName);
+    //         }
+    //     });
+    // });
+
+    var url = 'https://s3-eu-west-1.amazonaws.com/pollencount/pollen.json';
+    request(url, function(error, response, contents) {
+        if(!error) {
+            res.json(contents);
+        } else {
+            res.json(error);
+        }
+    });
 });
 
 app.get('/', function(req, res) {
