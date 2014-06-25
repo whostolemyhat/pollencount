@@ -3,7 +3,7 @@ var fs = require('fs');
 var request = require('request');
 var cheerio = require('cheerio');
 // var crypto = require('crypto');
-var s3 = require('aws2js');
+// var s3 = require('aws2js');
 
 var port = process.env.PORT || 3000;
 
