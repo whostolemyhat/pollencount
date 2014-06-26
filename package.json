@@ -1,6 +1,6 @@
 {
   "name": "pollencount",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "private": "true",
   "description": "scrape current pollen count",
   "main": "server.js",

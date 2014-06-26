@@ -1,5 +1,5 @@
 /* pollencount
-*//* v0.0.1
+*//* v1.0.0
 *//* whostolemyhat
 *//* Last updated: 26-06-2014 */
 function formatDate(a){var b=["January","February","March","April","May","June","July","August","September","October","November","December"],c=new Date(a),d=b[c.getMonth()],e=c.getDate();switch((e+"").slice(-1)){case"1":e+="st";break;case"2":e+="nd";break;case"3":e+="rd";break;default:e+="th"}return{day:e,month:d}}$(document).ready(function(){$.get("https://s3-eu-west-1.amazonaws.com/pollencount/pollen.json").done(function(a){a=JSON.parse(a);var b=a.count;$(".mega").text(b),b=b.toLowerCase().replace(" ",""),$("html, body").addClass(b);var c=formatDate(a.date);$(".date").text(c.day+" "+c.month)}).fail(function(){$(".mega").text("Unknown"),$(".main").append("<p>Refresh to try again.</p>")}).always(function(){$(".spinner").hide()})});
