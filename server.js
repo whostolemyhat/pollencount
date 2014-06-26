@@ -55,17 +55,17 @@ app.get('/scrape', function(req, res) {
     });
 });
 
-// app.get('/api/count', function(req, res) {
+app.get('/api/count', function(req, res) {
 
-//     var url = 'https://s3-eu-west-1.amazonaws.com/pollencount/pollen.json';
-//     request(url, function(error, response, contents) {
-//         if(!error) {
-//             res.json(contents);
-//         } else {
-//             res.json(error);
-//         }
-//     });
-// });
+    var url = 'https://s3-eu-west-1.amazonaws.com/pollencount/pollen.json';
+    request(url, function(error, response, contents) {
+        if(!error) {
+            res.json(contents);
+        } else {
+            res.json(error);
+        }
+    });
+});
 
 app.get('/', function(req, res) {
     res.render('index');
