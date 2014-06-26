@@ -28,8 +28,8 @@ function formatDate(date) {
 
 $(document).ready(function() {
 
-    $.get('/api/count')
-    // $.get('https://s3-eu-west-1.amazonaws.com/pollencount/pollen.json')
+    // $.get('/api/count')
+    $.get('https://s3-eu-west-1.amazonaws.com/pollencount/pollen.json')
     .done(function(data) {
 
         data = JSON.parse(data);
