@@ -32,6 +32,8 @@ app.get('/scrape', function(req, res) {
             var bucketName = 'pollencount';
 
             var keyName = 'pollen.json';
+            var expires = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
+            console.log(expires);
 
             s3.createBucket({ Bucket: bucketName }, function() {
                 var params = {
