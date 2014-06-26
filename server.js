@@ -2,11 +2,12 @@ var express = require('express');
 var request = require('request');
 var cheerio = require('cheerio');
 var AWS = require('aws-sdk');
-
+var compress = require('compression')();
 
 var port = process.env.PORT || 3000;
 
 var app = express();
+app.use(compress);
 app.use(express.static(__dirname + '/public'));
 
 

@@ -9,7 +9,8 @@
     "express": "latest",
     "request": "latest",
     "cheerio": "latest",
-    "aws-sdk": ">= 1.5.0"
+    "aws-sdk": ">= 1.5.0",
+    "compression": "~1.0.8"
   },
   "devDependencies": {
     "grunt": "~0.4.1",
