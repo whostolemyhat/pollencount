@@ -33,7 +33,12 @@ app.get('/scrape', function(req, res) {
             var keyName = 'pollen.json';
 
             s3.createBucket({ Bucket: bucketName }, function() {
-                var params = {Bucket: bucketName, Key: keyName, Body: JSON.stringify(json, null, 4)};
+                var params = {
+                    Bucket: bucketName,
+                    Key: keyName,
+                    Body: JSON.stringify(json, null, 4),
+                    ACL: 'public-read'
+                };
                 s3.putObject(params, function(err, data) {
                     if (err) {
                         console.log(err);
