@@ -38,7 +38,8 @@ app.get('/scrape', function(req, res) {
                     Bucket: bucketName,
                     Key: keyName,
                     Body: JSON.stringify(json, null, 4),
-                    ACL: 'public-read'
+                    ACL: 'public-read',
+                    CacheControl : 'max-age=86400' // 1day
                 };
                 s3.putObject(params, function(err, data) {
                     if (err) {
