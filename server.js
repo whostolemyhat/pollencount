@@ -35,22 +35,24 @@ app.get('/scrape', function(req, res) {
             var expires = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
             console.log(expires);
 
-            s3.createBucket({ Bucket: bucketName }, function() {
-                var params = {
-                    Bucket: bucketName,
-                    Key: keyName,
-                    Body: JSON.stringify(json, null, 4),
-                    ACL: 'public-read',
-                    // CacheControl : 'max-age=86400' // 1day
-                };
-                s3.putObject(params, function(err, data) {
-                    if (err) {
-                        console.log(err);
-                    } else {
-                        console.log('Successfully uploaded data to ' + bucketName + '/' + keyName);
-                    }
-                });
+            var params = {
+                Bucket: bucketName,
+                Key: keyName,
+                Body: JSON.stringify(json, null, 4),
+                ACL: 'public-read',
+                // CacheControl : 'max-age=86400' // 1day
+            };
+            console.log(params);
+            
+            s3.putObject(params, function(err, data) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    console.log('Successfully uploaded data to ' + bucketName + '/' + keyName);
+                }
             });
+            // s3.createBucket({ Bucket: bucketName }, function() {
+            // });
 
             res.send('Updated pollen count.');
         } else {
