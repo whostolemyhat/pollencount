@@ -33,6 +33,7 @@ app.get('/scrape', function(req, res) {
 
             var keyName = 'pollen.json';
             var expires = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
+            expires.setHours(7, 0, 0, 0); // set to 7am tomorrow
             console.log(expires);
 
             var params = {
@@ -40,10 +41,11 @@ app.get('/scrape', function(req, res) {
                 Key: keyName,
                 Body: JSON.stringify(json, null, 4),
                 ACL: 'public-read',
-                CacheControl : 'max-age=86400' // 1day
+                // CacheControl : 'max-age=86400' // 1day,
+                Expires: expires
             };
             // console.log(params);
-            
+
             s3.putObject(params, function(err, data) {
                 if (err) {
                     console.log(err);
