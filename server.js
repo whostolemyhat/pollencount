@@ -22,10 +22,14 @@ app.get('/scrape', function(req, res) {
             var $ = cheerio.load(html);
             var pollenCount;
             pollenCount = $('.pollen-index .value').text();
+            if(pollenCount === '') {
+                pollenCount = 'Low';
+            }
+            
             json.count = pollenCount;
             json.date = new Date();
-
-            console.log(pollenCount);
+            
+            console.log(json);
 
             // s3 credentials set as environment vars process.env.AWS_ACCESS_KEY_ID, process.env.AWS_SECRET_ACCESS_KEY $env:AWS_ACCESS_KEY_ID="xyz"
             var s3 = new AWS.S3();
